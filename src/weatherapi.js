@@ -1,6 +1,6 @@
 async function geoLocatingAPIData(searchString) {
   try {
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchString}&limit=6&appid=d7c1970fae4365879557d5d8829bfb29`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${searchString}&limit=6&appid=d7c1970fae4365879557d5d8829bfb29`;
     const response = await fetch(url, { mode: `cors` });
     const geoCodingData = await response.json();
     if (!geoCodingData.length == 0) {
@@ -29,7 +29,7 @@ function kelvinToFahrenheit(kelvinValue) {
 
 async function weatherAPIData(lon, lat) {
   try {
-    const url = `http://api.openweathermap.org/data/2.5/weather?lon=${lon}&lat=${lat}&APPID=d7c1970fae4365879557d5d8829bfb29`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lon=${lon}&lat=${lat}&APPID=d7c1970fae4365879557d5d8829bfb29`;
     const response = await fetch(url, { mode: `cors` });
     const openWeatherData = await response.json();
 
