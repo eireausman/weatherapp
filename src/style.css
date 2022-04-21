@@ -1,0 +1,228 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background-size: cover;
+}
+/* ------- end of CSS Reset ------------------------------------------------------------------- */
+/* ------- end of CSS Reset ------------------------------------------------------------------- */
+/* ------- end of CSS Reset ------------------------------------------------------------------- */
+
+#selectTempType,
+#locationInput,
+.searchResultItem button,
+.tempDetailContainer {
+  font-size: max(1em, 16px);
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-direction: column;
+  transition: 1s;
+}
+.configurationBoxes {
+  display: flex;
+  flex-direction: row;
+  max-width: 300px;
+}
+
+.configurationBoxesAfterSearch {
+  margin-top: 10vh;
+}
+
+.searchResultsForms {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: 1s;
+}
+
+.mainContainerAfterSearch {
+  position: relative;
+}
+
+.weatherDetailsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 5px;
+  min-width: 300px;
+  padding: 1vh;
+}
+
+.displayedLocation {
+  font-size: 1.4rem;
+  color: white;
+}
+
+.weatherDescription {
+  font-size: 1rem;
+  color: white;
+}
+
+.displayedCurrentTemp {
+  font-size: 5rem;
+  color: white;
+  text-decoration: underline;
+}
+.tempDetailContainer {
+  display: flex;
+  gap: 1vw;
+  margin-top: 1vh;
+}
+
+.tempDetailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+  padding: 1vh;
+}
+
+.displayedTempHigh {
+}
+.displayedTempLow {
+}
+.displayedTempFeelsLike {
+}
