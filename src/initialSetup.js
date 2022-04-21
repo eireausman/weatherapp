@@ -1,5 +1,6 @@
-import { initialListeners } from "./domEvents";
+import { initialListeners, weatherUpdated } from "./domEvents";
 import { setTempSelection } from "./localStorage";
+import { weatherAPIData } from "./weatherapi";
 
 export default function initialSetup() {
   localStorage.clear();
@@ -55,4 +56,8 @@ export default function initialSetup() {
   mainContainer.appendChild(weatherDetailsSection);
 
   initialListeners();
+  // set the default to LA, US so that a bg image and some data is shown.
+  weatherAPIData(`-118.242766`, `34.0536909`).then((result) => {
+    weatherUpdated(result);
+  });
 }

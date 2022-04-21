@@ -130,6 +130,8 @@ table {
 
 body {
   background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
 }
 /* ------- end of CSS Reset ------------------------------------------------------------------- */
 /* ------- end of CSS Reset ------------------------------------------------------------------- */
@@ -146,26 +148,55 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   flex-direction: column;
+  margin-bottom: 10px;
   transition: 1s;
 }
 .configurationBoxes {
   display: flex;
   flex-direction: row;
-  max-width: 300px;
+  min-width: 300px;
+  justify-content: space-evenly;
+  margin-top: 10vh;
+  padding-bottom: 5px;
 }
 
 .configurationBoxesAfterSearch {
-  margin-top: 10vh;
+}
+
+.selectTempType {
+  border-radius: 10px;
+  border: 1px solid white;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.selectTempType:hover {
+  background-color: rgb(220, 208, 50);
+  color: black;
 }
 
 .searchResultsForms {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 300px;
+  border-radius: 1px;
+  background-color: white;
+  opacity: 0.6;
+  margin-top: 1vh;
+}
+.searchResultItem button {
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  text-align: left;
+  border: 0;
+  cursor: pointer;
 }
 
+.searchResultItem button:hover {
+  text-decoration: underline;
+}
 .mainContainer {
   display: flex;
   flex-direction: column;

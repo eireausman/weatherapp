@@ -36,6 +36,21 @@ async function updateWeatherBackground(weatherCode) {
       break;
   }
 }
+function weatherUpdated(result) {
+  // if the result is a built search result object, display it, otherwise show the returned error message.
+  if (typeof result === `object`) {
+    localStorage.removeItem(`weatherData`);
+    const resultJSON = JSON.stringify(result);
+    localStorage.setItem(`weatherData`, resultJSON);
+    displayWeatherData(result);
+    const mainContainer = document.querySelector(`.mainContainer`);
+    mainContainer.classList.add(`mainContainerAfterSearch`);
+    const configurationBoxes = document.querySelector(`.configurationBoxes`);
+    configurationBoxes.classList.add(`configurationBoxesAfterSearch`);
+  } else {
+    updateWeatherSearchFormError(result);
+  }
+}
 
 function listeners(element, trigger, action) {
   switch (action) {
@@ -51,20 +66,7 @@ function listeners(element, trigger, action) {
         const resultsFormParent = document.querySelector(`.searchResultsForms`);
         deleteChildItems(resultsFormParent);
         weatherAPIData(locationLon, locationLat).then((result) => {
-          // if the result is a built search result object, display it, otherwise show the returned error message.
-          if (typeof result === `object`) {
-            localStorage.removeItem(`weatherData`);
-            const resultJSON = JSON.stringify(result);
-            localStorage.setItem(`weatherData`, resultJSON);
-            displayWeatherData(result);
-            const mainContainer = document.querySelector(`.mainContainer`);
-            mainContainer.classList.add(`mainContainerAfterSearch`);
-            const configurationBoxes =
-              document.querySelector(`.configurationBoxes`);
-            configurationBoxes.classList.add(`configurationBoxesAfterSearch`);
-          } else {
-            updateWeatherSearchFormError(result);
-          }
+          weatherUpdated(result);
         });
       });
 
@@ -156,6 +158,9 @@ async function updatesearchResultsForms(searchString) {
 }
 
 function displayWeatherData() {
+  const locationInput = document.getElementById(`locationInput`);
+  locationInput.value = ``;
+
   const weatherData = JSON.parse(localStorage.getItem(`weatherData`));
   const tempType = localStorage.getItem(`tempSelection`);
 
@@ -240,4 +245,4 @@ function initialListeners() {
   listeners(selectTempType, `click`, `selectTempTypeInputChangeAction`);
 }
 
-export { updateWeatherSearchFormError, initialListeners };
+export { updateWeatherSearchFormError, initialListeners, weatherUpdated };
