@@ -129,13 +129,18 @@ table {
 }
 
 body {
-  background-size: cover;
-  background-repeat: no-repeat;
   height: 100vh;
 }
 /* ------- end of CSS Reset ------------------------------------------------------------------- */
 /* ------- end of CSS Reset ------------------------------------------------------------------- */
 /* ------- end of CSS Reset ------------------------------------------------------------------- */
+
+.bgContainer {
+  margin: auto;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 #selectTempType,
 #locationInput,
@@ -161,9 +166,6 @@ body {
   padding-bottom: 5px;
 }
 
-.configurationBoxesAfterSearch {
-}
-
 .selectTempType {
   border-radius: 10px;
   border: 1px solid white;
@@ -185,6 +187,7 @@ body {
   background-color: white;
   opacity: 0.6;
   margin-top: 1vh;
+  transition: 0.5s;
 }
 .searchResultItem button {
   background-color: rgba(0, 0, 0, 0);
@@ -251,9 +254,115 @@ body {
   padding: 1vh;
 }
 
-.displayedTempHigh {
+/* largest supported desktop/laptop screen size */
+@media only screen and (min-width: 1921px) {
+  body {
+    background-color: antiquewhite;
+  }
+  .bgContainer {
+    width: 1920px;
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+  }
+  .bgThunder {
+    background-image: url("./z_img/200thunder_large.jpg");
+  }
+  .bgVisbility {
+    background-image: url("./z_img/700visibility_large.jpg");
+  }
+  .bgSunny {
+    background-image: url("./z_img/800sunny_large.jpg");
+  }
+  .bgCloudSome {
+    background-image: url("./z_img/801802cloud_large.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_large.jpg");
+  }
 }
-.displayedTempLow {
+
+/*  HD screens */
+@media only screen and (max-width: 1920px) {
+  .bgThunder {
+    background-image: url("./z_img/200thunder_1080.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_1920.jpg");
+  }
+  .bgVisbility {
+    background-image: url("./z_img/700visibility_1920.jpg");
+  }
+  .bgSunny {
+    background-image: url("./z_img/800sunny_1920.jpg");
+  }
+  .bgCloudSome {
+    background-image: url("./z_img/801802cloud_1920.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_1920.jpg");
+  }
 }
-.displayedTempFeelsLike {
+
+/* some Ipads + tablets + smaller screens */
+@media only screen and (max-width: 1080px) {
+  .bgThunder {
+    background-image: url("./z_img/200thunder_1080.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_1080.jpg");
+  }
+  .bgVisbility {
+    background-image: url("./z_img/700visibility_1080.jpg");
+  }
+  .bgSunny {
+    background-image: url("./z_img/800sunny_1080.jpg");
+  }
+  .bgCloudSome {
+    background-image: url("./z_img/801802cloud_1080.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_1080.jpg");
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .bgThunder {
+    background-image: url("./z_img/200thunder_600.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_600.jpg");
+  }
+  .bgVisbility {
+    background-image: url("./z_img/700visibility_600.jpg");
+  }
+  .bgSunny {
+    background-image: url("./z_img/800sunny_600.jpg");
+  }
+  .bgCloudSome {
+    background-image: url("./z_img/801802cloud_600.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_600.jpg");
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .bgThunder {
+    background-image: url("./z_img/200thunder_350.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_350.jpg");
+  }
+  .bgVisbility {
+    background-image: url("./z_img/700visibility_350.jpg");
+  }
+  .bgSunny {
+    background-image: url("./z_img/800sunny_350.jpg");
+  }
+  .bgCloudSome {
+    background-image: url("./z_img/801802cloud_350.jpg");
+  }
+  .bgCloudDense {
+    background-image: url("./z_img/803804cloud_350.jpg");
+  }
 }

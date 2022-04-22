@@ -7,19 +7,17 @@ export default function initialSetup() {
 
   setTempSelection(`C`);
 
+  const bgContainer = document.createElement(`div`);
+  bgContainer.classList.add(`bgContainer`);
+  document.body.appendChild(bgContainer);
+
   const searchContainer = document.createElement(`div`);
   searchContainer.classList.add(`searchContainer`);
-  document.body.appendChild(searchContainer);
+  bgContainer.appendChild(searchContainer);
 
   const configurationBoxes = document.createElement(`nav`);
   configurationBoxes.classList.add(`configurationBoxes`);
   searchContainer.appendChild(configurationBoxes);
-
-  // const locationInputLabel = document.createElement(`label`);
-  // locationInputLabel.setAttribute(`for`, `locationInput`);
-  // locationInputLabel.textContent = `Location`;
-  // locationInputLabel.classList.add(`locationInputLabel`);
-  // configurationBoxes.appendChild(locationInputLabel);
 
   const locationInput = document.createElement(`input`);
   locationInput.classList.add(`locationInput`);
@@ -49,7 +47,7 @@ export default function initialSetup() {
 
   const mainContainer = document.createElement(`div`);
   mainContainer.classList.add(`mainContainer`);
-  document.body.appendChild(mainContainer);
+  bgContainer.appendChild(mainContainer);
 
   const weatherDetailsSection = document.createElement(`section`);
   weatherDetailsSection.classList.add(`weatherDetailsSection`);

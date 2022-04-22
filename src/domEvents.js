@@ -2,11 +2,6 @@ import { geoLocatingAPIData, weatherAPIData } from "./weatherapi";
 import { setTempSelection } from "./localStorage";
 
 import loadingImg from "./z_img/loading.gif";
-import bg200ThunderImg from "./z_img/200thunder.jpg";
-import bg700VisibilityImg from "./z_img/700visibility.jpg";
-import bg800SunnyImg from "./z_img/800sunny.jpg";
-import bg801802CloudSomeImg from "./z_img/801802cloud.jpg";
-import bg803804CloudDenseImg from "./z_img/803804cloud.jpg";
 
 function deleteChildItems(parentElement) {
   while (parentElement.firstChild) {
@@ -15,21 +10,25 @@ function deleteChildItems(parentElement) {
 }
 
 async function updateWeatherBackground(weatherCode) {
+  // remove the previous classes which will remove any previous background
+  const bgContainer = document.querySelector(`.bgContainer`);
+  bgContainer.removeAttribute(`class`);
+  bgContainer.classList.add(`bgContainer`);
   const firstNumber = weatherCode.toString().charAt(0);
   switch (firstNumber) {
     case `2`:
-      document.body.background = bg200ThunderImg;
+      bgContainer.classList.add(`bgThunder`);
       break;
     case `7`:
-      document.body.background = bg700VisibilityImg;
+      bgContainer.classList.add(`bgVisbility`);
       break;
     case `8`:
       if (weatherCode == `800`) {
-        document.body.background = bg800SunnyImg;
+        bgContainer.classList.add(`bgSunny`);
       } else if (weatherCode == `801` || weatherCode == `802`) {
-        document.body.background = bg801802CloudSomeImg;
+        bgContainer.classList.add(`bgCloudSome`);
       } else if (weatherCode == `803` || weatherCode == `804`) {
-        document.body.background = bg803804CloudDenseImg;
+        bgContainer.classList.add(`bgCloudDense`);
       }
       break;
     default:
