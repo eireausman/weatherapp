@@ -173,6 +173,8 @@ body {
 }
 
 .selectTempType {
+  display: flex;
+  justify-content: center;
   border-radius: 10px;
   width: 31px;
   border: 1px solid white;
