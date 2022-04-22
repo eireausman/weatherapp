@@ -2,10 +2,9 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const path = require(`path`);
 
 module.exports = {
-  mode: `development`,
-//   mode: "production",
+  // mode: `development`,
+  mode: `production`,
   entry: [`babel-polyfill`, `./src/index.js`],
-  // entry: `./src/index.js`,
   output: {
     path: path.resolve(__dirname, `./dist`),
     filename: `index_bundle.js`,
@@ -35,9 +34,9 @@ module.exports = {
         use: {
           loader: `babel-loader`,
           options: {
-            presets: [`@babel/preset-env`]
-          }
-        }
+            presets: [`@babel/preset-env`],
+          },
+        },
       },
     ],
   },

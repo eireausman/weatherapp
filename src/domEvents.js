@@ -153,7 +153,7 @@ async function updatesearchResultsForms(searchString) {
     errorMessage.textContent = `Location not found.  Please try again.`;
     searchResultsForms.appendChild(errorMessage);
   }
-  loadingImgEle.remove();
+  // loadingImgEle.remove();
 }
 
 function displayWeatherData() {
