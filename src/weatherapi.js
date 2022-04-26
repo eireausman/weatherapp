@@ -1,5 +1,10 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
+import { format, isEqual, parseISO, isDate } from "date-fns";
+
 async function geoLocatingAPIData(searchString) {
   try {
+    // key deliberately public
     const url = `https://api.openweathermap.org/geo/1.0/direct?q=${searchString}&limit=6&appid=d7c1970fae4365879557d5d8829bfb29`;
     const response = await fetch(url, { mode: `cors` });
     const geoCodingData = await response.json();
@@ -27,36 +32,72 @@ function kelvinToFahrenheit(kelvinValue) {
   return result;
 }
 
-async function weatherAPIData(lon, lat) {
+async function weatherAPIData(lon, lat, locationNameString) {
   try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lon=${lon}&lat=${lat}&APPID=d7c1970fae4365879557d5d8829bfb29`;
+    // key deliberately public
+    const url = `https://api.openweathermap.org/data/2.5/onecall?lon=${lon}&lat=${lat}&exclude=minutely,hourly&appid=d7c1970fae4365879557d5d8829bfb29`;
+
     const response = await fetch(url, { mode: `cors` });
     const openWeatherData = await response.json();
 
-    if (openWeatherData.cod == 200) {
-      const weatherDataObject = {};
-      weatherDataObject.location = openWeatherData.name;
-      weatherDataObject.summary = openWeatherData.weather;
-      weatherDataObject.temperatureC = {
-        symbol: `\u2103`,
-        current: kelvinToCelsius(openWeatherData.main.temp),
-        low: kelvinToCelsius(openWeatherData.main.temp_min),
-        high: kelvinToCelsius(openWeatherData.main.temp_max),
-        feelsLike: kelvinToCelsius(openWeatherData.main.feels_like),
-      };
-      weatherDataObject.temperatureF = {
-        symbol: `\u2109`,
-        current: kelvinToFahrenheit(openWeatherData.main.temp),
-        low: kelvinToFahrenheit(openWeatherData.main.temp_min),
-        high: kelvinToFahrenheit(openWeatherData.main.temp_max),
-        feelsLike: kelvinToFahrenheit(openWeatherData.main.feels_like),
-      };
-      weatherDataObject.country = openWeatherData.sys.country;
-      weatherDataObject.wind = openWeatherData.wind;
-      return weatherDataObject;
+    const today = format(new Date(), `yyyy-MM-dd`);
+
+    const weatherDataObject = {};
+    weatherDataObject.location = locationNameString;
+    weatherDataObject.timezone = openWeatherData.timezone;
+    weatherDataObject.today = {};
+    weatherDataObject.forecast = {};
+    for (const item in openWeatherData.daily) {
+      const apiDate = format(
+        new Date(openWeatherData.daily[item].dt * 1000),
+        `yyyy-MM-dd`
+      );
+      const apiDateDay = format(
+        new Date(openWeatherData.daily[item].dt * 1000),
+        `eee`
+      );
+
+      if (item === `0`) {
+        weatherDataObject.today.summary = openWeatherData.current.weather[0];
+        weatherDataObject.today.date = apiDate;
+        weatherDataObject.today.dateDay = apiDateDay;
+        weatherDataObject.today.tempC = {
+          symbol: `\u2103`,
+          current: kelvinToCelsius(openWeatherData.current.temp),
+          low: kelvinToCelsius(openWeatherData.daily[item].temp.min),
+          high: kelvinToCelsius(openWeatherData.daily[item].temp.max),
+          feelsLike: kelvinToCelsius(openWeatherData.current.feels_like),
+        };
+        weatherDataObject.today.tempF = {
+          symbol: `\u2109`,
+          current: kelvinToFahrenheit(openWeatherData.current.temp),
+          low: kelvinToFahrenheit(openWeatherData.daily[item].temp.min),
+          high: kelvinToFahrenheit(openWeatherData.daily[item].temp.max),
+          feelsLike: kelvinToFahrenheit(openWeatherData.current.feels_like),
+        };
+        weatherDataObject.today.wind = openWeatherData.daily[item].wind_speed;
+      } else {
+        weatherDataObject.forecast[item] = {
+          date: apiDate,
+          dateDay: apiDateDay,
+          summary: openWeatherData.daily[item].weather[0],
+          tempC: {
+            symbol: `\u2103`,
+            low: kelvinToCelsius(openWeatherData.daily[item].temp.min),
+            high: kelvinToCelsius(openWeatherData.daily[item].temp.max),
+          },
+          tempF: {
+            symbol: `\u2109`,
+            low: kelvinToFahrenheit(openWeatherData.daily[item].temp.min),
+            high: kelvinToFahrenheit(openWeatherData.daily[item].temp.max),
+          },
+        };
+      }
     }
-    const errorMessage = `${openWeatherData.message} - Please try again.`;
-    return errorMessage;
+    return weatherDataObject;
+
+    // const errorMessage = `${openWeatherData.message} - Please try again.`;
+    // return errorMessage;
   } catch (error) {
     console.error(error);
   }

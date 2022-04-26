@@ -49,13 +49,21 @@ export default function initialSetup() {
   mainContainer.classList.add(`mainContainer`);
   bgContainer.appendChild(mainContainer);
 
-  const weatherDetailsSection = document.createElement(`section`);
-  weatherDetailsSection.classList.add(`weatherDetailsSection`);
-  mainContainer.appendChild(weatherDetailsSection);
+  const weatherDetailsSectionCurrent = document.createElement(`section`);
+  weatherDetailsSectionCurrent.classList.add(`weatherDetailsSectionCurrent`);
+  mainContainer.appendChild(weatherDetailsSectionCurrent);
+
+  const weatherDetailsSectionForecast = document.createElement(`section`);
+  weatherDetailsSectionForecast.classList.add(`weatherDetailsSectionForecast`);
+  mainContainer.appendChild(weatherDetailsSectionForecast);
 
   initialListeners();
   // set the default to LA, US so that a bg image and some data is shown.
-  weatherAPIData(`-118.242766`, `34.0536909`).then((result) => {
+  weatherAPIData(
+    `-118.242766`,
+    `34.0536909`,
+    `Los Angeles, California, US`
+  ).then((result) => {
     weatherUpdated(result);
   });
 }

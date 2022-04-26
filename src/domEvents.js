@@ -1,3 +1,4 @@
+import { format, isDate } from "date-fns";
 import { geoLocatingAPIData, weatherAPIData } from "./weatherapi";
 import { setTempSelection } from "./localStorage";
 
@@ -18,6 +19,12 @@ async function updateWeatherBackground(weatherCode) {
   switch (firstNumber) {
     case `2`:
       bgContainer.classList.add(`bgThunder`);
+      break;
+    case `3`:
+      bgContainer.classList.add(`bgRain`);
+      break;
+    case `5`:
+      bgContainer.classList.add(`bgRain`);
       break;
     case `7`:
       bgContainer.classList.add(`bgVisbility`);
@@ -61,12 +68,17 @@ function listeners(element, trigger, action) {
           clickedForm.querySelector(`.locationLon`).textContent;
         const locationLat =
           clickedForm.querySelector(`.locationLat`).textContent;
+        const locationNameString =
+          clickedForm.querySelector(`.locationNameString`).textContent;
+
         // clear down the results for after a result is clicked:
         const resultsFormParent = document.querySelector(`.searchResultsForms`);
         deleteChildItems(resultsFormParent);
-        weatherAPIData(locationLon, locationLat).then((result) => {
-          weatherUpdated(result);
-        });
+        weatherAPIData(locationLon, locationLat, locationNameString).then(
+          (result) => {
+            weatherUpdated(result);
+          }
+        );
       });
 
       break;
@@ -92,8 +104,6 @@ function listeners(element, trigger, action) {
           setTempSelection(desiredTempType);
         }
 
-        // console.log(e.target.dataset.tempselected);
-        // setTempSelection(e.target.value);
         displayWeatherData();
       });
       break;
@@ -110,7 +120,6 @@ function updateWeatherSearchFormError(errorMessage) {
 }
 
 async function updatesearchResultsForms(searchString) {
-  const searchResults = await geoLocatingAPIData(searchString);
   const searchResultsForms = document.querySelector(`.searchResultsForms`);
   deleteChildItems(searchResultsForms);
 
@@ -120,9 +129,10 @@ async function updatesearchResultsForms(searchString) {
   loadingImgEle.src = loadingImg;
   searchResultsForms.appendChild(loadingImgEle);
 
+  const searchResults = await geoLocatingAPIData(searchString);
+
   if (searchResults != false) {
     for (let i = 0; i < searchResults.length; i += 1) {
-      console.log(searchResults[i]);
       // form, label (city, state, country), hidden lon, hidden lat, submit
       const searchResultItem = document.createElement(`form`);
       searchResultItem.classList.add(`searchResultItem`);
@@ -134,6 +144,23 @@ async function updatesearchResultsForms(searchString) {
       locationLon.classList.add(`locationLon`);
       locationLon.textContent = searchResults[i].lon;
       searchResultItem.appendChild(locationLon);
+
+      const locationNameString = document.createElement(`input`);
+      locationNameString.setAttribute(`type`, `hidden`);
+      locationNameString.name = `locationNameString`;
+      locationNameString.classList.add(`locationNameString`);
+      let locationString = ``;
+      if (searchResults[i].name != undefined) {
+        locationString = searchResults[i].name;
+      }
+      if (searchResults[i].state != undefined) {
+        locationString += `, ${searchResults[i].state}`;
+      }
+      if (searchResults[i].country != undefined) {
+        locationString += `, ${searchResults[i].country}`;
+      }
+      locationNameString.textContent = locationString;
+      searchResultItem.appendChild(locationNameString);
 
       const locationLat = document.createElement(`input`);
       locationLat.setAttribute(`type`, `hidden`);
@@ -163,34 +190,34 @@ function displayWeatherData() {
   const weatherData = JSON.parse(localStorage.getItem(`weatherData`));
   const tempType = localStorage.getItem(`tempSelection`);
 
-  const weatherDetailsSection = document.querySelector(
-    `.weatherDetailsSection`
+  const weatherDetailsSectionCurrent = document.querySelector(
+    `.weatherDetailsSectionCurrent`
   );
-  deleteChildItems(weatherDetailsSection);
+  deleteChildItems(weatherDetailsSectionCurrent);
 
-  const weatherCode = weatherData.summary[0].id;
+  const weatherCode = weatherData.today.summary.id;
   updateWeatherBackground(weatherCode);
 
   const location = document.createElement(`p`);
   location.classList.add(`displayedLocation`);
-  location.textContent = `${weatherData.location}, ${weatherData.country}`;
-  weatherDetailsSection.appendChild(location);
+  location.textContent = `${weatherData.location}`;
+  weatherDetailsSectionCurrent.appendChild(location);
 
   const weatherDescription = document.createElement(`p`);
   weatherDescription.classList.add(`weatherDescription`);
-  weatherDescription.textContent = `${weatherData.summary[0].description}`;
-  weatherDetailsSection.appendChild(weatherDescription);
+  weatherDescription.textContent = `${weatherData.today.summary.description}`;
+  weatherDetailsSectionCurrent.appendChild(weatherDescription);
 
-  const { symbol } = weatherData[`temperature${tempType}`];
+  const { symbol } = weatherData.today[`temp${tempType}`];
   const tempCurrent = document.createElement(`p`);
   tempCurrent.classList.add(`displayedCurrentTemp`);
   tempCurrent.textContent =
-    weatherData[`temperature${tempType}`].current + symbol;
-  weatherDetailsSection.appendChild(tempCurrent);
+    weatherData.today[`temp${tempType}`].current + symbol;
+  weatherDetailsSectionCurrent.appendChild(tempCurrent);
 
   const tempDetailContainer = document.createElement(`div`);
   tempDetailContainer.classList.add(`tempDetailContainer`);
-  weatherDetailsSection.appendChild(tempDetailContainer);
+  weatherDetailsSectionCurrent.appendChild(tempDetailContainer);
 
   const tempDetailItem1 = document.createElement(`div`);
   tempDetailItem1.classList.add(`tempDetailItem`);
@@ -203,7 +230,7 @@ function displayWeatherData() {
 
   const tempHigh = document.createElement(`p`);
   tempHigh.classList.add(`displayedTempHigh`);
-  tempHigh.textContent = weatherData[`temperature${tempType}`].high + symbol;
+  tempHigh.textContent = weatherData.today[`temp${tempType}`].high + symbol;
   tempDetailItem1.appendChild(tempHigh);
 
   const tempDetailItem2 = document.createElement(`div`);
@@ -217,7 +244,7 @@ function displayWeatherData() {
 
   const tempLow = document.createElement(`p`);
   tempLow.classList.add(`displayedTempLow`);
-  tempLow.textContent = weatherData[`temperature${tempType}`].low + symbol;
+  tempLow.textContent = weatherData.today[`temp${tempType}`].low + symbol;
   tempDetailItem2.appendChild(tempLow);
 
   const tempDetailItem3 = document.createElement(`div`);
@@ -232,8 +259,48 @@ function displayWeatherData() {
   const tempFeelsLike = document.createElement(`p`);
   tempFeelsLike.classList.add(`displayedTempFeelsLike`);
   tempFeelsLike.textContent =
-    weatherData[`temperature${tempType}`].feelsLike + symbol;
+    weatherData.today[`temp${tempType}`].feelsLike + symbol;
   tempDetailItem3.appendChild(tempFeelsLike);
+
+  const weatherDetailsSectionForecast = document.querySelector(
+    `.weatherDetailsSectionForecast`
+  );
+  deleteChildItems(weatherDetailsSectionForecast);
+
+  const forecastEntries = Object.values(weatherData.forecast);
+  for (let i = 0; i < forecastEntries.length; i += 1) {
+    const forecastDetailRow = document.createElement(`div`);
+    forecastDetailRow.classList.add(`forecastDetailRow`);
+    if (i != forecastEntries.length - 1) {
+      forecastDetailRow.classList.add(`forecastDetailRowMidLine`);
+    }
+    weatherDetailsSectionForecast.appendChild(forecastDetailRow);
+
+    const forecastDate = document.createElement(`p`);
+    forecastDate.classList.add(`forecastDate`);
+    forecastDate.textContent = forecastEntries[i].dateDay;
+    forecastDetailRow.appendChild(forecastDate);
+
+    const forecastImage = new Image();
+    forecastImage.src = `https://openweathermap.org/img/wn/${forecastEntries[i].summary.icon}.png`;
+    forecastDetailRow.appendChild(forecastImage);
+
+    const forecastDescription = document.createElement(`p`);
+    forecastDescription.classList.add(`forecastDescription`);
+    forecastDescription.textContent = forecastEntries[i].summary.description;
+    forecastDetailRow.appendChild(forecastDescription);
+
+    const forecastLow = document.createElement(`p`);
+    forecastLow.classList.add(`forecastLow`);
+    forecastLow.textContent = `${forecastEntries[i][`temp${tempType}`].low} - `;
+    forecastDetailRow.appendChild(forecastLow);
+
+    const forecastHigh = document.createElement(`p`);
+    forecastHigh.classList.add(`forecastHigh`);
+    forecastHigh.textContent =
+      forecastEntries[i][`temp${tempType}`].high + symbol;
+    forecastDetailRow.appendChild(forecastHigh);
+  }
 }
 
 function initialListeners() {

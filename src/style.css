@@ -162,7 +162,7 @@ body {
   flex-direction: row;
   min-width: 300px;
   justify-content: space-evenly;
-  margin-top: 10vh;
+  margin-top: 5vh;
   padding-bottom: 5px;
 }
 
@@ -229,7 +229,7 @@ body {
   position: relative;
 }
 
-.weatherDetailsSection {
+.weatherDetailsSectionCurrent {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -238,7 +238,7 @@ body {
   min-width: 300px;
   padding: 1vh;
 
-  background: rgba(196, 195, 195, 0.5);
+  background: rgb(69 64 64 / 87%);
   border-radius: 8px;
   color: #fff;
   text-align: center;
@@ -276,6 +276,49 @@ body {
   padding: 1vh;
 }
 
+.weatherDetailsSectionForecast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  min-width: 300px;
+  padding: 1vh;
+  margin-top: 20px;
+  background: rgb(69 64 64 / 87%);
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-decoration: none;
+}
+
+.forecastDetailRow {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+}
+.forecastDetailRowMidLine {
+  border-bottom: 1px dashed rgb(162 162 162 / 87%);
+}
+
+.forecastDate {
+  min-width: 35px;
+}
+
+.forecastLow {
+  width: 50px;
+}
+
+.forecastDescription {
+  width: 110px;
+  text-align: left;
+  margin-left: 15px;
+}
+
 /* largest supported desktop/laptop screen size */
 @media only screen and (min-width: 1921px) {
   body {
@@ -288,6 +331,9 @@ body {
   }
   .bgThunder {
     background-image: url("./z_img/200thunder_large.jpg");
+  }
+  .bgRain {
+    background-image: url("./z_img/300500rain_large.jpg");
   }
   .bgVisbility {
     background-image: url("./z_img/700visibility_large.jpg");
@@ -308,7 +354,7 @@ body {
   .bgThunder {
     background-image: url("./z_img/200thunder_1080.jpg");
   }
-  .bgCloudDense {
+  .bgRain {
     background-image: url("./z_img/803804cloud_1920.jpg");
   }
   .bgVisbility {
@@ -330,8 +376,8 @@ body {
   .bgThunder {
     background-image: url("./z_img/200thunder_1080.jpg");
   }
-  .bgCloudDense {
-    background-image: url("./z_img/803804cloud_1080.jpg");
+  .bgRain {
+    background-image: url("./z_img/300500rain_1080.jpg");
   }
   .bgVisbility {
     background-image: url("./z_img/700visibility_1080.jpg");
@@ -351,8 +397,8 @@ body {
   .bgThunder {
     background-image: url("./z_img/200thunder_600.jpg");
   }
-  .bgCloudDense {
-    background-image: url("./z_img/803804cloud_600.jpg");
+  .bgRain {
+    background-image: url("./z_img/300500rain_600.jpg");
   }
   .bgVisbility {
     background-image: url("./z_img/700visibility_600.jpg");
@@ -372,8 +418,8 @@ body {
   .bgThunder {
     background-image: url("./z_img/200thunder_350.jpg");
   }
-  .bgCloudDense {
-    background-image: url("./z_img/803804cloud_350.jpg");
+  .bgRain {
+    background-image: url("./z_img/300500rain_350.jpg");
   }
   .bgVisbility {
     background-image: url("./z_img/700visibility_350.jpg");
