@@ -37,7 +37,7 @@ export default function initialSetup() {
   selectTempType.name = `selectTempType`;
   configurationBoxes.appendChild(selectTempType);
 
-  const errorMessage = document.createElement(`p`);
+  const errorMessage = document.createElement(`form`);
   errorMessage.classList.add(`weatherSearchFormErrorMessage`);
   configurationBoxes.appendChild(errorMessage);
 

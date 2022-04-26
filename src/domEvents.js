@@ -58,6 +58,7 @@ function weatherUpdated(result) {
   }
 }
 
+let searchDelay = null;
 function listeners(element, trigger, action) {
   switch (action) {
     case `locationSearchResultClick`:
@@ -85,9 +86,16 @@ function listeners(element, trigger, action) {
     case `locationInputChangeAction`:
       element.addEventListener(trigger, (e) => {
         const searchString = e.target.value;
-        if (searchString.length > 2) {
-          updatesearchResultsForms(searchString);
+
+        if (searchDelay != null) {
+          clearTimeout(searchDelay);
         }
+        searchDelay = setTimeout(() => {
+          searchDelay = null;
+          if (searchString.length > 2) {
+            updatesearchResultsForms(searchString);
+          }
+        }, 350);
       });
       break;
     case `selectTempTypeInputChangeAction`:
@@ -175,8 +183,13 @@ async function updatesearchResultsForms(searchString) {
 
       searchResultItem.appendChild(resultStringButton);
     }
+    const errorMessage = document.querySelectorAll(`.searchErrorMessage`);
+    errorMessage.forEach((e) => {
+      e.remove();
+    });
   } else {
     const errorMessage = document.createElement(`p`);
+    errorMessage.classList.add(`searchErrorMessage`);
     errorMessage.textContent = `Location not found.  Please try again.`;
     searchResultsForms.appendChild(errorMessage);
   }
