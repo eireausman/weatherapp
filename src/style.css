@@ -394,6 +394,9 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+  .configurationBoxes {
+    margin-top: 2vh;
+  }
   .bgThunder {
     background-image: url("./z_img/200thunder_600.jpg");
   }
@@ -415,6 +418,9 @@ body {
 }
 
 @media only screen and (max-width: 350px) {
+  .configurationBoxes {
+    margin-top: 2vh;
+  }
   .bgThunder {
     background-image: url("./z_img/200thunder_350.jpg");
   }

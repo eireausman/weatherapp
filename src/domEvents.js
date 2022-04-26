@@ -85,7 +85,7 @@ function listeners(element, trigger, action) {
     case `locationInputChangeAction`:
       element.addEventListener(trigger, (e) => {
         const searchString = e.target.value;
-        if (searchString.length > 5) {
+        if (searchString.length > 2) {
           updatesearchResultsForms(searchString);
         }
       });
